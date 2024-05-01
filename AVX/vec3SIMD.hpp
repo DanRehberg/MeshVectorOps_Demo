@@ -117,6 +117,31 @@ vec3 cross(const vec3& a, const vec3& b)
 	return temp;
 }
 
+float dot(const vec3& a, __m256& b)
+{
+	float c[3];
+	float result = 0.0f;
+	//return a.x * b.x + a.y * b.y + a.z * b.z;
+	/*#pragma omp simd
+	for (int i = 0; i < 3; ++i)
+	{
+		c.xyz[i] = a.xyz[i] * b.xyz[i];
+	}
+	//#pragma omp simd reduction(+:result)
+	//for (int i = 0; i < 3; ++i)
+	//{
+	//	result += c.xyz[i];
+	//}
+	return c.x + c.y + c.z;//result;*/
+
+	__m256 A = _mm256_loadu_ps(&a.xyz[0]);
+
+	__m256 multResult = _mm256_mul_ps(A, b);
+
+	_mm256_storeu_ps(&c[0], multResult);
+
+	return c[0] + c[1] + c[2];
+}
 float dot(const vec3& a, const vec3& b)
 {
 	vec3 c;
@@ -254,3 +279,4 @@ vec3 normalize(const vec3& v)
 }
 
 #endif
+
