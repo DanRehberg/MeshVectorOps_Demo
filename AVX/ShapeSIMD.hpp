@@ -214,7 +214,7 @@ public:
 		}
 		return tempID;
 	}
-	uint32_t supportPointHillClimb(const vec3& direction, const int& prevID)
+	uint32_t supportPointHillClimb(__m256& direction, const int& prevID)
 	{
 		float magnitude = -999999;
 		float nMag = magnitude;
